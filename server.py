@@ -8,6 +8,9 @@ def em_detector():
     text = request.args.get('textToAnalyze')
     result = emotion_detector(text)
 
+    if result['anger'] is None:
+        return "Invalid text! Please try again!"
+
     anger = result['anger']
     disgust = result['disgust']
     fear = result['fear']

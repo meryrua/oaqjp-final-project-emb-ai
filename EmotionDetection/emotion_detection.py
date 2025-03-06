@@ -12,24 +12,32 @@ def emotion_detector(text_to_analyse):  # Define a function named sentiment_anal
     
     formatted_response = json.loads(response.text)
 
-    anger = formatted_response['emotionPredictions'][0]['emotion']['anger']
-    disgust = formatted_response['emotionPredictions'][0]['emotion']['disgust']
-    fear = formatted_response['emotionPredictions'][0]['emotion']['fear']
-    joy = formatted_response['emotionPredictions'][0]['emotion']['joy']
-    sadness = formatted_response['emotionPredictions'][0]['emotion']['sadness']
-    main_emotion = max([anger, disgust, fear, joy, sadness])
+    if response.status_code == 400:
+        anger = None
+        disgust = None
+        fear = None
+        joy = None
+        sadness = None
+        emotion = None
+    elif response.status_code == 200:
+        anger = formatted_response['emotionPredictions'][0]['emotion']['anger']
+        disgust = formatted_response['emotionPredictions'][0]['emotion']['disgust']
+        fear = formatted_response['emotionPredictions'][0]['emotion']['fear']
+        joy = formatted_response['emotionPredictions'][0]['emotion']['joy']
+        sadness = formatted_response['emotionPredictions'][0]['emotion']['sadness']
+        main_emotion = max([anger, disgust, fear, joy, sadness])
 
-    emotion = ""
-    if main_emotion == anger:
-        emotion = "anger"
-    elif main_emotion == disgust:
-        emotion = "disgust"
-    elif main_emotion == fear:
-        emotion = "fear"
-    elif main_emotion == joy:
-        emotion = "joy"
-    elif main_emotion == sadness:
-        emotion = "sadness"
+        emotion = ""
+        if main_emotion == anger:
+            emotion = "anger"
+        elif main_emotion == disgust:
+            emotion = "disgust"
+        elif main_emotion == fear:
+            emotion = "fear"
+        elif main_emotion == joy:
+            emotion = "joy"
+        elif main_emotion == sadness:
+            emotion = "sadness"
 
 
     return {
